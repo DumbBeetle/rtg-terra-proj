@@ -11,7 +11,7 @@ resource "aws_iam_role" "github_ec2_role" {
         "Action" : "sts:AssumeRoleWithWebIdentity",
         "Condition" : {
           "StringEquals" : {
-            "token.actions.githubusercontent.com:sub" : "repo: <aws-samples/EXAMPLEREPO>:ref:refs/heads/<ExampleBranch>",
+            "token.actions.githubusercontent.com:sub" : "repo:${var.github_repo}:ref:${var.github_branches.compute}",
             "token.actions.githubusercontent.com:aud" : "sts.amazonaws.com"
           }
         }
