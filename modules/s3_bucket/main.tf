@@ -1,9 +1,23 @@
+terraform {
+  required_version = ">= 1.7.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+    random = {
+      source  = "hashicorp/random"
+      version = "3.7.2"
+    }
+  }
+}
+
 resource "random_id" "bucket_prefix" {
   byte_length = 8
 }
 
 resource "aws_s3_bucket" "project_bucket" {
-  bucket = "devops-project-bucket-${random_id.bucket_prefix.hex}"
+  bucket = "${var.bucket_name}-${random_id.bucket_prefix.hex}"
 }
 
 resource "aws_s3_bucket_public_access_block" "block_public" {

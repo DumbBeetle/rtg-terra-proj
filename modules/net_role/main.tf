@@ -1,5 +1,15 @@
-resource "aws_iam_role" "github_vpc_role" {
-  name = "GitHub-VPC-Role"
+terraform {
+  required_version = ">= 1.7.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+resource "aws_iam_role" "github_net_role" {
+  name = "GitHub-Net-Role"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -196,7 +206,7 @@ resource "aws_iam_policy" "github_vpc_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "attach_github_vpc_policy" {
-  role       = aws_iam_role.github_vpc_role.name
+  role       = aws_iam_role.github_net_role.name
   policy_arn = aws_iam_policy.github_vpc_policy.arn
 }
 

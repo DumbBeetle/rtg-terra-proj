@@ -1,3 +1,13 @@
+terraform {
+  required_version = ">= 1.7.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
 resource "aws_iam_role" "github_s3_role" {
   name = "GitHub-S3-Role"
   assume_role_policy = jsonencode({
