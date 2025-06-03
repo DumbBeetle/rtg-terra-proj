@@ -1,6 +1,8 @@
+tfvars
 *tfvars
 *tfstate
 .idea
 .terraform
 terraform*
 .env*
+*.tfbackend

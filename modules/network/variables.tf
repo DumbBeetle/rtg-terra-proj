@@ -17,3 +17,4 @@ variable "subnet_zones" {
   }))
 }
 
+variable "tags" {}
