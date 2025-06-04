@@ -8,6 +8,10 @@
 # }
 
 
-output "flattened" {
-  value = module.network.flatten_subnets_to_type
-}
+
+# output "flatten_subnets_with_zones" {
+#   value = module.network.flatten_subnets_with_zones
+# }
+# output "private_subnets_map" {
+#   value = module.network.private_subnets_map
+# }

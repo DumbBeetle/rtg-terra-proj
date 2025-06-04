@@ -5,15 +5,15 @@ resource "aws_internet_gateway" "internet_gateway" {
   })
 }
 
-resource "aws_route_table" "private_route_table" {
-  vpc_id         = var.vpc_id
+resource "aws_route_table" "database_route_table" {
+  vpc_id = var.vpc_id
   tags = merge(var.tags, {
-    Name = "private_route_table"
+    Name = "database_route_table"
   })
 }
 
 resource "aws_route_table" "public_route_table" {
-  vpc_id         = var.vpc_id
+  vpc_id = var.vpc_id
   tags = merge(var.tags, {
     Name = "public_route_table"
   })
@@ -25,7 +25,7 @@ resource "aws_route_table" "public_route_table" {
 }
 
 resource "aws_route_table_association" "route_table_association" {
-  for_each = local.flatten_subnets_with_zones
-  route_table_id = each.value.type == "private" ? aws_route_table.private_route_table.id : aws_route_table.public_route_table.id
-  subnet_id = aws_subnet.my_subnets[each.key].id
+  for_each       = local.flatten_subnets_with_zones
+  route_table_id = each.value.type == "database" ? aws_route_table.database_route_table.id : aws_route_table.public_route_table.id
+  subnet_id      = aws_subnet.my_subnets[each.key].id
 }

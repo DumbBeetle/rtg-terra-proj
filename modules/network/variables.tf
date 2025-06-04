@@ -10,7 +10,7 @@ variable "subnet_zones" {
       name = string
       cidr = string
     })
-    private = object({
+    database = object({
       name = string
       cidr = string
     })
