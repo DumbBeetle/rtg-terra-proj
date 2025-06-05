@@ -1,17 +1,7 @@
-# output "print_zones" {
-#   value = {
-#     for key, value in var.zones : key => {
-#       public_cidr = value.public.cidr
-#       private_cidr = value.private.cidr
-#     }
-#   }
-# }
+output "subnets_output" {
+  value = module.network.subnets_output
+}
 
-
-
-# output "flatten_subnets_with_zones" {
-#   value = module.network.flatten_subnets_with_zones
-# }
-# output "private_subnets_map" {
-#   value = module.network.private_subnets_map
-# }
+output "security_groups_output" {
+  value = module.network.security_groups_output
+}

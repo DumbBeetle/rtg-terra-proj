@@ -1,6 +1,6 @@
 resource "aws_security_group" "sg" {
   for_each = local.flatten_subnets_with_zones
-  name     = "${each.key} sg"
+  name     = "${each.key}_sg"
 }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_inbound_ssh_connection" {
