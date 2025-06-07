@@ -15,6 +15,8 @@ resource "aws_instance" "instances" {
   instance_type = var.instance_type
   subnet_id = var.net_subnets[each.key]
   security_groups = [var.net_security_groups[each.key]]
+  associate_public_ip_address = endswith(each.key, "public")
+  key_name = var.ssh_public_key
   root_block_device {
     delete_on_termination = true
     volume_size = 10
