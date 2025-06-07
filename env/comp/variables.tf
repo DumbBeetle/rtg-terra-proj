@@ -6,3 +6,8 @@ variable "net_bucket" {
     encrypt = bool
   })
 }
+
+variable "ssh_public_key" {
+  type = string
+  description = "Your public ssh key"
+}
