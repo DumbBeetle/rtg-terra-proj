@@ -1,14 +1,14 @@
-output "instance_public_ip" {
-  value = ""                                          # The actual value to be outputted
-  description = "The public IP address of the EC2 instance" # Description of what this output represents
+output "bastion_instance_ids" {
+  value = local.bastions_instance_ids
+  description = "The bastion EC2 instance ID"
 }
 
+output "db_instance_ids" {
+  value = local.database_instance_ids
+  description = "The database EC2 instance ID"
+}
 
-# output "get_net_subnets" {
-#   value = var.net_subnets
-# }
-#
-# output "get_net_security_groups" {
-#   value = var.net_security_groups
-# }
-#
+output "bastion_public_ips" {
+  value = local.bastions_instance_public_ip
+  description = "The public IP address of the EC2 instance"
+}

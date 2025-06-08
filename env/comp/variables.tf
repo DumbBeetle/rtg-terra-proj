@@ -5,9 +5,10 @@ variable "net_bucket" {
     region = string
     encrypt = bool
   })
+  description = "S3 bucket net developer tfstate file"
 }
 
 variable "ssh_public_key" {
   type = string
-  description = "Your public ssh key"
+  description = "AWS public ssh key "
 }
