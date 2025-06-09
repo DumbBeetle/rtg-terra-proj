@@ -35,9 +35,9 @@ Deploys bastion and database instances integrated with network resources from Te
 
 ## Data
 
-| Name       | Description                                |
-|------------|--------------------------------------------|
-| ubuntu_ami | Returns ami data for usage in aws_instance |
+| Name        | Description |
+|-------------|-------------|
+| net_tfstate | S3 bucket   |
 
 ## Locals
 

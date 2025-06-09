@@ -4,7 +4,7 @@ This root module deploys EC2 compute resources into the network infrastructure c
 
 ## Purpose
 
-- Deploy production-ready EC2 instances using the shared network infrastructure
+- Deploy EC2 instances using the shared network infrastructure
 - Integrate with existing network resources (VPC, subnets, security groups)
 
 ## Dependencies
@@ -37,10 +37,10 @@ data "terraform_remote_state" "network" {
 
 ## Inputs
 
-| Name           | Description                                                  | Type   | Default | Required |
-|----------------|--------------------------------------------------------------|--------|---------|:--------:|
-| net_bucket     | S3 bucket containing network developer's `terraform.tfstate` | object |         |   yes    |
-| ssh_public_key | AWS ssh key pair name for instances access                   | string |         |   yes    |
+| Name           | Description                                                               | Type   | Default | Required |
+|----------------|---------------------------------------------------------------------------|--------|---------|:--------:|
+| net_bucket     | S3 bucket and location containing network developer's `terraform.tfstate` | object |         |   yes    |
+| ssh_public_key | AWS ssh key pair name for instances access                                | string |         |   yes    |
 
 ## Outputs
 
@@ -49,6 +49,12 @@ data "terraform_remote_state" "network" {
 | bastion_instance_ids | The bastion EC2 instance ID           |
 | db_instance_ids      | The database EC2 instance ID          |
 | bastion_public_ips   | The public IP address of the bastions |
+
+## Data
+
+| Name        | Description                                |
+|-------------|--------------------------------------------|
+| net_tfstate | Returns ami data for usage in aws_instance |
 
 ## Locals
 

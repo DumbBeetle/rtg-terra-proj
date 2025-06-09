@@ -12,7 +12,7 @@ terraform {
 resource "aws_instance" "instances" {
   for_each = var.net_subnets
   ami = data.aws_ami.ubuntu_ami.id
-  instance_type = var.instance_type
+  instance_type = "t3.micro"
   subnet_id = var.net_subnets[each.key]
   security_groups = [var.net_security_groups[each.key]]
   associate_public_ip_address = endswith(each.key, "public")
