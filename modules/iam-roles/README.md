@@ -1,4 +1,4 @@
-# IAM_Roles
+# IAM_Roles Module
 
 Creates a set of AWS IAM Role and Policy for GitHub Actions workflow
 EC2_Role: ec2 instances.

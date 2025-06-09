@@ -6,6 +6,6 @@ output "security_groups_output" {
   value = module.network.security_groups_output
 }
 
-output "project_vpc" {
+output "project_vpc_id" {
   value = aws_vpc.project_vpc.id
 }

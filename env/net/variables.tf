@@ -9,22 +9,33 @@ variable "subnet_zones" {
       cidr = string
     })
   }))
-}
+  description = "Map variable for creating the Subnets"
 
-variable "bucket_name" {
-  type        = string
-  description = "S3 bucket name"
-  sensitive   = true
+  # Check Cidr
+  validation {
+    condition = alltrue([
+      for zone in values(var.subnet_zones) :
+      can(cidrnetmask(zone.public.cidr)) && can(cidrnetmask(zone.database.cidr))
+      ])
+    error_message = "Invalid public or database Cidr, All must be valid"
+  }
+  # Check unique subnet names
+  validation {
+    condition = length(toset(flatten([
+      for zone in values(var.subnet_zones) : [zone.public.name, zone.database.name]
+    ]))) == (length(var.subnet_zones) * 2)
+    error_message = "All subnets names (public and database) must be unique"
+  }
 }
 
 variable "github_account_id" {
-  description = "GitHub account ID for AWS IDP       "
+  description = "GitHub account ID for AWS IDP"
   type        = string
   sensitive   = true
 }
 
 variable "github_repo" {
-  description = "GitHub repository name for AWS role boundary "
+  description = "GitHub repository name for AWS role boundary"
   type        = string
 }
 

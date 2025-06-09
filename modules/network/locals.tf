@@ -1,7 +1,7 @@
 locals {
   az_mapping = {
-    zone_1 = data.aws_availability_zones.zones.names[0]
-    zone_2 = data.aws_availability_zones.zones.names[1]
+    zone_1 = data.aws_availability_zones.az.names[0]
+    zone_2 = data.aws_availability_zones.az.names[1]
   }
 
   flatten_subnets_with_zones = merge([
@@ -20,10 +20,6 @@ locals {
       }
     }
   ]...)
-
-  flatten_subnets_to_type = {
-    for key, value in local.flatten_subnets_with_zones : key => value.type
-  }
 
   database_subnets_map = {
       for key, value in local.flatten_subnets_with_zones : key => value if endswith(key, "database")
