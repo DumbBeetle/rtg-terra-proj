@@ -28,5 +28,5 @@ resource "aws_route_table_association" "route_table_association" {
   for_each       = local.flatten_subnets_with_zones
   route_table_id = each.value.type == "database" ? aws_route_table.database_route_table.id : aws_route_table.public_route_table.id
   subnet_id      = aws_subnet.my_subnets[each.key].id
-  depends_on = [aws_subnet.my_subnets, aws_route_table.database_route_table, aws_route_table.public_route_table]
+  depends_on     = [aws_subnet.my_subnets, aws_route_table.database_route_table, aws_route_table.public_route_table]
 }

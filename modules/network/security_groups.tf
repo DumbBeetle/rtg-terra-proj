@@ -1,7 +1,7 @@
 resource "aws_security_group" "sg" {
   for_each = local.flatten_subnets_with_zones
   name     = "${each.key}_sg"
-  vpc_id = var.vpc_id
+  vpc_id   = var.vpc_id
 }
 #--------------------------
 # Public
@@ -15,7 +15,7 @@ resource "aws_vpc_security_group_ingress_rule" "allow_inbound_ssh_connection_pub
   for_each          = local.public_subnets_map
   security_group_id = aws_security_group.sg[each.key].id
   from_port         = 22
-  cidr_ipv4 = "0.0.0.0/0"
+  cidr_ipv4         = "0.0.0.0/0"
   to_port           = 22
   ip_protocol       = "tcp"
   tags = {
@@ -62,44 +62,66 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
 #--------
 
 resource "aws_vpc_security_group_ingress_rule" "allow_inbound_ssh_connection_database" {
-  count = 2
-  from_port         = 22
-  security_group_id = aws_security_group.sg["zone_${count.index + 1}_database"].id
+  count                        = 2
+  from_port                    = 22
+  security_group_id            = aws_security_group.sg["zone_${count.index + 1}_database"].id
   referenced_security_group_id = aws_security_group.sg["zone_${count.index + 1}_public"].id
-  to_port           = 22
-  ip_protocol       = "tcp"
+  to_port                      = 22
+  ip_protocol                  = "tcp"
   tags = {
     Name = "Allow ssh connections from public subnet"
   }
   depends_on = [aws_security_group.sg]
 }
 
-resource "aws_vpc_security_group_ingress_rule" "allow_inbound_icmp_database" {
-  count = 2
+resource "aws_vpc_security_group_ingress_rule" "connect_to_mysql_zone_1" {
+  count             = 2
   security_group_id = aws_security_group.sg["zone_${count.index + 1}_database"].id
-  referenced_security_group_id = aws_security_group.sg["zone_${count.index + 1}_public"].id
-  from_port         = 8
-  to_port           = -1
-  ip_protocol       = "icmp"
+  cidr_ipv4         = aws_subnet.my_subnets["zone_1_public"].cidr_block
+  from_port         = 3306
+  to_port           = 3306
+  ip_protocol       = "tcp"
   tags = {
-    Name = "Allow pinging the public subnet from outside the vpc"
+    Name = "Allow connection to mysql db"
   }
-  depends_on = [aws_security_group.sg]
+}
+
+resource "aws_vpc_security_group_ingress_rule" "connect_to_mysql_zone_2" {
+  count             = 2
+  security_group_id = aws_security_group.sg["zone_${count.index + 1}_database"].id
+  cidr_ipv4         = aws_subnet.my_subnets["zone_2_public"].cidr_block
+  from_port         = 3306
+  to_port           = 3306
+  ip_protocol       = "tcp"
+  tags = {
+    Name = "Allow connection to mysql db"
+  }
 }
 
 #--------
 # Egress
 #--------
-
-resource "aws_vpc_security_group_egress_rule" "allow_outbound_icmp_database" {
-  count = 2
+resource "aws_vpc_security_group_egress_rule" "mysql_response_zone_1" {
+  count             = 2
   security_group_id = aws_security_group.sg["zone_${count.index + 1}_database"].id
-  referenced_security_group_id = aws_security_group.sg["zone_${count.index + 1}_public"].id
-  from_port         = 0
-  to_port           = -1
-  ip_protocol       = "icmp"
+  cidr_ipv4         = aws_subnet.my_subnets["zone_1_public"].cidr_block
+  from_port         = 3306
+  to_port           = 3306
+  ip_protocol       = "tcp"
   tags = {
-    Name = "Allow pinging the public subnet from outside the vpc"
+    Name = "Allow mysql to responsed"
   }
-  depends_on = [aws_security_group.sg]
 }
+
+resource "aws_vpc_security_group_egress_rule" "mysql_response_zone_2" {
+  count             = 2
+  security_group_id = aws_security_group.sg["zone_${count.index + 1}_database"].id
+  cidr_ipv4         = aws_subnet.my_subnets["zone_2_public"].cidr_block
+  from_port         = 3306
+  to_port           = 3306
+  ip_protocol       = "tcp"
+  tags = {
+    Name = "Allow mysql to responsed"
+  }
+}
+

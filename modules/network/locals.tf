@@ -22,7 +22,7 @@ locals {
   ]...)
 
   database_subnets_map = {
-      for key, value in local.flatten_subnets_with_zones : key => value if endswith(key, "database")
+    for key, value in local.flatten_subnets_with_zones : key => value if endswith(key, "database")
   }
 
   public_subnets_map = {

@@ -11,3 +11,11 @@ output "security_groups_output" {
   }
   description = "Output the Security Groups for usage in the Compute Environment"
 }
+
+output "db_subnets_group" {
+  value = aws_db_subnet_group.db_subnet_group
+}
+
+output "az_names" {
+  value = data.aws_availability_zones.az.names
+}

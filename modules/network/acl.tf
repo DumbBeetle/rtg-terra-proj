@@ -105,40 +105,52 @@ resource "aws_network_acl" "acl_database" {
   vpc_id   = var.vpc_id
 
   ingress {
-    protocol   = "icmp"
+    protocol   = "tcp"
     rule_no    = 1
     action     = "allow"
-    cidr_block = local.public_subnets_map["${each.key}_public"].cidr
-    from_port  = 0
-    to_port    = 0
-    icmp_type  = 8
-    icmp_code  = -1
+    cidr_block = local.public_subnets_map["zone_1_public"].cidr
+    from_port  = 3306
+    to_port    = 3306
   }
   ingress {
     protocol   = "tcp"
     rule_no    = 2
     action     = "allow"
-    cidr_block = local.public_subnets_map["${each.key}_public"].cidr
-    from_port  = 22
-    to_port    = 22
+    cidr_block = local.public_subnets_map["zone_2_public"].cidr
+    from_port  = 3306
+    to_port    = 3306
   }
   egress {
     protocol   = "tcp"
     rule_no    = 1
     action     = "allow"
-    cidr_block = local.public_subnets_map["${each.key}_public"].cidr
+    cidr_block = local.public_subnets_map["zone_1_public"].cidr
     from_port  = 1024
     to_port    = 65535
   }
   egress {
-    protocol   = "icmp"
+    protocol   = "tcp"
     rule_no    = 2
     action     = "allow"
-    cidr_block = local.public_subnets_map["${each.key}_public"].cidr
-    from_port  = 0
-    to_port    = 0
-    icmp_type  = 0
-    icmp_code  = -1
+    cidr_block = local.public_subnets_map["zone_2_public"].cidr
+    from_port  = 1024
+    to_port    = 65535
+  }
+  egress {
+    protocol   = "tcp"
+    rule_no    = 3
+    action     = "allow"
+    cidr_block = local.public_subnets_map["zone_1_public"].cidr
+    from_port  = 3306
+    to_port    = 3306
+  }
+  egress {
+    protocol   = "tcp"
+    rule_no    = 4
+    action     = "allow"
+    cidr_block = local.public_subnets_map["zone_2_public"].cidr
+    from_port  = 3306
+    to_port    = 3306
   }
 
   tags = merge(var.tags, {

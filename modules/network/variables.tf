@@ -22,7 +22,7 @@ variable "subnet_zones" {
     condition = alltrue([
       for zone in values(var.subnet_zones) :
       can(cidrnetmask(zone.public.cidr)) && can(cidrnetmask(zone.database.cidr))
-      ])
+    ])
     error_message = "Invalid public or database Cidr, All must be valid"
   }
   # Check unique subnet names
