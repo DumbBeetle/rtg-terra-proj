@@ -31,6 +31,8 @@ This root module deploys the network infrastructure to be used by the compute de
 | subnets_output         | Output the Subnets for usage in the Compute Environment         |
 | security_groups_output | Output the Security Groups for usage in the Compute Environment |
 | project_vpc_id         | Output the Project VPC ID                                       |
+| db_subnets_group       | Subnets db group                                                |
+| az_names               | Availability Zones names as a list                              |
 
 ## Data
 

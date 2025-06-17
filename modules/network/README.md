@@ -24,10 +24,12 @@ Creates the Network infrastructure
 
 ## Outputs
 
-| Name                   | Description                                                     |
-|------------------------|-----------------------------------------------------------------|
-| subnets_output         | Output the Subnets for usage in the Compute Environment         |
-| security_groups_output | Output the Security Groups for usage in the Compute Environment |
+| Name                   | Description                                          |
+|------------------------|------------------------------------------------------|
+| subnets_output         | Subnets for usage in the Compute Environment         |
+| security_groups_output | Security Groups for usage in the Compute Environment |
+| db_subnets_group       | Subnets db group                                     |
+| az_names               | Availability Zones names as a list                   |
 
 ## Data
 
