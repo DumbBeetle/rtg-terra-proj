@@ -8,22 +8,24 @@ Deploys bastion and database instances integrated with network resources from Te
 - 2x Database EC2 instances (private subnets)
 - Associated subnets
 - Associated security groups
+- Create SSM Parameter for RDS password
 
 ## Requirements
 
-| Name      | Version   |
-|-----------|-----------|
-| Terraform | \>= 1.7.0 |
-| AWS       | ~> 5.0    |
+| Name      | Version    |
+|-----------|------------|
+| Terraform | \>= 1.11.0 |
+| AWS       | ~> 5.0     |
 
 ## Inputs
 
-| Name                | Description                                         | Type        | Default  | Required |
-|---------------------|-----------------------------------------------------|-------------|----------|:--------:|
-| instance_type       | EC2 instance type                                   | string      | t3.micro |   yes    |
-| net_subnets         | Subnets data from network developer tfstate         | map(string) |          |   yes    |
-| net_security_groups | Security Groups data from network developer tfstate | map(string) |          |   yes    |
-| ssh_public_key      | AWS ssh key pair name for instances access          | string      |          |   yes    |
+| Name                  | Description                                         | Type        | Default | Required |
+|-----------------------|-----------------------------------------------------|-------------|---------|:--------:|
+| net_subnets           | Subnets data from network developer tfstate         | map(string) |         |   yes    |
+| net_security_groups   | Security Groups data from network developer tfstate | map(string) |         |   yes    |
+| db_subnets_group_name | ame of the database subnet group                    | string      |         |   yes    |
+| ssh_public_key        | AWS ssh key pair name for instances access          | string      |         |   yes    |
+| availability_zones    | vpc availability zones                              | string      |         |   yes    |
 
 ## Outputs
 
@@ -35,9 +37,10 @@ Deploys bastion and database instances integrated with network resources from Te
 
 ## Data
 
-| Name        | Description |
-|-------------|-------------|
-| net_tfstate | S3 bucket   |
+| Name              | Description            |
+|-------------------|------------------------|
+| net_tfstate       | S3 bucket              |
+| aws_ssm_parameter | Get Mysql RDS password |
 
 ## Locals
 
@@ -51,9 +54,11 @@ Deploys bastion and database instances integrated with network resources from Te
 
 ```hcl
 module "compute" {
-  source              = "../../modules/compute"
-  net_subnets         = local.network_subnets
-  net_security_groups = local.network_sgs
-  ssh_public_key      = var.ssh_public_key
+  source                = "../../modules/compute"
+  net_subnets           = local.network_subnets
+  net_security_groups   = local.network_sgs
+  db_subnets_group_name = local.db_subnets_group_name
+  ssh_public_key        = var.ssh_public_key
+  availability_zones    = local.az_names
 }
 ```

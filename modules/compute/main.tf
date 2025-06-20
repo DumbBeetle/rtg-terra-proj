@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.7.0"
+  required_version = ">= 1.11.0"
 
   required_providers {
     aws = {
@@ -37,12 +37,13 @@ resource "aws_db_instance" "db_instance" {
   engine                  = "mysql"
   engine_version          = "8.0.41"
   username                = "db_user"
-  password                = "db_password"
+  password                = data.aws_ssm_parameter.db_password.value
   skip_final_snapshot     = true
   backup_retention_period = 1
   db_subnet_group_name    = var.db_subnets_group_name
   vpc_security_group_ids  = [var.net_security_groups["zone_1_database"]]
   availability_zone       = var.availability_zones[0]
+  depends_on = [data.aws_ssm_parameter.db_password]
 }
 
 resource "aws_db_instance" "db_replica" {

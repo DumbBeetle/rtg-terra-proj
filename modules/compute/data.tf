@@ -6,3 +6,8 @@ data "aws_ami" "ubuntu_ami" {
     values = ["x86_64"]
   }
 }
+
+data "aws_ssm_parameter" "db_password" {
+  name = "/database/password"
+  depends_on = [aws_ssm_parameter.secret]
+}
