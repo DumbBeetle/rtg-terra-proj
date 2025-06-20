@@ -8,4 +8,7 @@ locals {
   bastions_instance_public_ip = [
     for instance in aws_instance.instances : instance.public_ip if instance.associate_public_ip_address
   ]
+  public_subnets = {
+    for key, value in var.net_subnets : key => value if endswith(key, "public")
+  }
 }

@@ -37,10 +37,12 @@ data "terraform_remote_state" "network" {
 
 ## Inputs
 
-| Name           | Description                                                               | Type   | Default | Required |
-|----------------|---------------------------------------------------------------------------|--------|---------|:--------:|
-| net_bucket     | S3 bucket and location containing network developer's `terraform.tfstate` | object |         |   yes    |
-| ssh_public_key | AWS ssh key pair name for instances access                                | string |         |   yes    |
+| Name                  | Description                                                               | Type   | Default | Required |
+|-----------------------|---------------------------------------------------------------------------|--------|---------|:--------:|
+| net_bucket            | S3 bucket and location containing network developer's `terraform.tfstate` | object |         |   yes    |
+| ssh_public_key        | AWS ssh key pair name for instances access                                | string |         |   yes    |
+| db_subnets_group_name | Subnets db group                                                          | string |         |   yes    |
+| az_names              | Availability Zones names as a list                                        | list   |         |   yes    |
 
 ## Outputs
 
